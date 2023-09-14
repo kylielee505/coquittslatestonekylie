@@ -21,7 +21,7 @@ def predict(prompt, language, audio_file_pth, agree):
             "output.wav",
         )
     else:
-        gr.Warning("Please accept the Terms & Condition!")
+        return gr.Warning("Please accept the Terms & Condition!")
 
 
 title = "Coqui🐸 XTTS"
@@ -52,19 +52,19 @@ examples = [
         "Once when I was six years old I saw a magnificent picture.",
         "en",
         "examples/female.wav",
-        True,
+        False,
     ],
     [
         "Lorsque j'avais six ans j'ai vu, une fois, une magnifique image.",
         "fr",
         "examples/male.wav",
-        True,
+        False,
     ],
     [
         "Un tempo lontano, quando avevo sei anni, vidi un magnifico disegno.",
         "it",
         "examples/female.wav",
-        True,
+        False,
     ],
 ]
 
