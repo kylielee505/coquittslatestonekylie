@@ -21,7 +21,7 @@ def predict(prompt, language, audio_file_pth, agree):
             "output.wav",
         )
     else:
-        return gr.Warning("Please accept the Terms & Condition!")
+        raise gr.Warning("Please accept the Terms & Condition!")
 
 
 title = "Coqui🐸 XTTS"
