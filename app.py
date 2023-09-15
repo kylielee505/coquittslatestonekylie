@@ -159,7 +159,7 @@ audio_upload = gr.Interface(
     ],
     description=description,
     article=article,
-    #examples=examples, # TODO(SG): un-comment examples
+    examples=examples,
 )
 
 microphone = gr.Interface(
