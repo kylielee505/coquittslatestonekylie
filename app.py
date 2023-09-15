@@ -46,10 +46,7 @@ def predict(prompt, language, speaker_wav, agree=False):
         gr.Warning(
             "Please accept the Terms & Conditions of the model by checking the box!"
         )
-        return (
-            None,
-            None,
-        )
+        return ()
 
 
 title = "Coqui🐸 XTTS"
@@ -80,32 +77,72 @@ examples = [
         "Once when I was six years old I saw a magnificent picture",
         "en",
         "examples/female.wav",
-        None,
-        False,
         True,
     ],
     [
         "Lorsque j'avais six ans j'ai vu, une fois, une magnifique image",
         "fr",
         "examples/male.wav",
-        None,
-        False,
+        True,
+    ],
+    [
+        "Als ich sechs war, sah ich einmal ein wunderbares Bild",
+        "de",
+        "examples/female.wav",
+        True,
+    ],
+    [
+        "Cuando tenía seis años, vi una vez una imagen magnífica",
+        "es",
+        "examples/male.wav",
+        True,
+    ],
+    [
+        "Quando eu tinha seis anos eu vi, uma vez, uma imagem magnífica",
+        "pt",
+        "examples/female.wav",
+        True,
+    ],
+    [
+        "Kiedy miałem sześć lat, zobaczyłem pewnego razu wspaniały obrazek",
+        "pl",
+        "examples/male.wav",
         True,
     ],
     [
         "Un tempo lontano, quando avevo sei anni, vidi un magnifico disegno",
         "it",
         "examples/female.wav",
-        None,
-        False,
         True,
     ],
     [
         "Bir zamanlar, altı yaşındayken, muhteşem bir resim gördüm",
         "tr",
         "examples/female.wav",
-        None,
-        False,
+        True,
+    ],
+    [
+        "Когда мне было шесть лет, я увидел однажды удивительную картинку",
+        "ru",
+        "examples/female.wav",
+        True,
+    ],
+    [
+        "Toen ik een jaar of zes was, zag ik op een keer een prachtige plaat",
+        "nl",
+        "examples/male.wav",
+        True,
+    ],
+    [
+        "Když mi bylo šest let, viděl jsem jednou nádherný obrázek",
+        "cs",
+        "examples/female.wav",
+        True,
+    ],
+    [
+        "当我还只有六岁的时候， 看到了一副精彩的插画",
+        "zh-cn",
+        "examples/female.wav",
         True,
     ],
 ]
