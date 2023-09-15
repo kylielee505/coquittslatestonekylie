@@ -255,4 +255,4 @@ with demo:
         [audio_upload, microphone], ["Audio file", "Microphone"], title=title
     )
 
-demo.launch(enable_queue=True)
+demo.queue().launch(debug=True)
