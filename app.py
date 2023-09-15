@@ -1,51 +1,41 @@
-import sys
 import os
-#os.system("pip uninstall -y gradio")
-#os.system("pip install --upgrade gradio==3.24.0")
+import torch
 
 import gradio as gr
 from TTS.api import TTS
 
 tts = TTS("tts_models/multilingual/multi-dataset/xtts_v1")
-tts.to("cuda")
+device = "cuda" if torch.cuda.is_available() else "cpu"
+tts.to(device)
 
 
-def predict(prompt, language, audio_file_pth, mic_file_path, use_mic, agree):
-    if agree == True:
-        if use_mic == True:
-            if mic_file_path is not None:
-                speaker_wav=mic_file_path
-            else:
-                gr.Warning("Please record your voice with Microphone, or uncheck Use Microphone to use reference audios")
-                return (
-                    None,
-                    None,
-                ) 
-                
-        else:
-            speaker_wav=audio_file_pth
+def predict(prompt, language, speaker_wav, agree=False):
+    """
+    Main body function to run inference, with light checks to ensure valid arguments are passed to the model.
 
-        if len(prompt)<2:
-            gr.Warning("Please give a longer prompt text")
-            return (
-                    None,
-                    None,
-                )
-        try:   
-            tts.tts_to_file(
-                text=prompt,
-                file_path="output.wav",
-                speaker_wav=speaker_wav,
-                language=language,
-            )
-        except RuntimeError as e:
-            if "device-side" in e.message:
-                # cannot do anything on cuda device side error, need tor estart
-                gr.Warning("Unhandled Exception encounter, please retry in a minute")
-                print("Cuda device-assert Runtime encountered need restart")
-                print(e.message)
-                sys.exit("Exit due to cuda device-assert")
-            raise
+    Args:
+        prompt (`str`, required):
+            Text prompt to the model.
+        language (`str`, required):
+            Language for inference.
+        speaker_wav (`str`, required):
+            Path to the speaker prompt audio file.
+        agree (`bool`, required, defaults to `False`):
+            Whether or not the model terms have been agreed to.
+    Returns:
+        tuple of (waveform_visual, synthesised_audio):
+            Video animation of the output speech, and audio file.
+    """
+    if agree:
+        if len(prompt) < 2:
+            raise gr.Error("Please give a longer text prompt")
+
+        tts.tts_to_file(
+            text=prompt,
+            file_path="output.wav",
+            speaker_wav=speaker_wav,
+            language=language,
+        )
 
         return (
             gr.make_waveform(
@@ -54,11 +44,13 @@ def predict(prompt, language, audio_file_pth, mic_file_path, use_mic, agree):
             "output.wav",
         )
     else:
-        gr.Warning("Please accept the Terms & Condition!")
+        gr.Warning(
+            "Please accept the Terms & Conditions of the model by checking the box!"
+        )
         return (
-                None,
-                None,
-            ) 
+            None,
+            None,
+        )
 
 
 title = "Coqui🐸 XTTS"
@@ -119,7 +111,7 @@ examples = [
     ],
 ]
 
-gr.Interface(
+audio_upload = gr.Interface(
     fn=predict,
     inputs=[
         gr.Textbox(
@@ -153,12 +145,8 @@ gr.Interface(
             info="Click on the ✎ button to upload your own target speaker audio",
             type="filepath",
             value="examples/female.wav",
+            source="upload",
         ),
-        gr.Audio(source="microphone",
-                 type="filepath",
-                 info="Use your microphone to record audio",
-                 label="Use Microphone for Reference"),
-        gr.Checkbox(label="Check to use Microphone as Reference", value=False),
         gr.Checkbox(
             label="Agree",
             value=False,
@@ -169,8 +157,63 @@ gr.Interface(
         gr.Video(label="Waveform Visual"),
         gr.Audio(label="Synthesised Audio"),
     ],
-    title=title,
     description=description,
     article=article,
-    examples=examples,
-).queue().launch(debug=True)
+    #examples=examples, # TODO(SG): un-comment examples
+)
+
+microphone = gr.Interface(
+    fn=predict,
+    inputs=[
+        gr.Textbox(
+            label="Text Prompt",
+            info="One or two sentences at a time is better",
+            value="It took me quite a long time to develop a voice, and now that I have it I'm not going to be silent.",
+        ),
+        gr.Dropdown(
+            label="Language",
+            info="Select an output language for the synthesised speech",
+            choices=[
+                "en",
+                "es",
+                "fr",
+                "de",
+                "it",
+                "pt",
+                "pl",
+                "tr",
+                "ru",
+                "nl",
+                "cz",
+                "ar",
+                "zh-cn",
+            ],
+            max_choices=1,
+            value="en",
+        ),
+        gr.Audio(
+            label="Reference Audio",
+            info="Record your own target speaker audio",
+            type="filepath",
+            source="microphone",
+        ),
+        gr.Checkbox(
+            label="Agree",
+            value=False,
+            info="I agree to the terms of the Coqui Public Model License at https://coqui.ai/cpml",
+        ),
+    ],
+    outputs=[
+        gr.Video(label="Waveform Visual"),
+        gr.Audio(label="Synthesised Audio"),
+    ],
+    description=description,
+    article=article,
+)
+
+demo = gr.Blocks()
+
+with demo:
+    gr.TabbedInterface([audio_upload, microphone], ["Audio file", "Microphone"], title=title)
+
+demo.launch(enable_queue=True)
