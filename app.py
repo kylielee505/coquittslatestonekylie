@@ -1,4 +1,3 @@
-import os
 import torch
 
 import gradio as gr
@@ -214,6 +213,8 @@ microphone = gr.Interface(
 demo = gr.Blocks()
 
 with demo:
-    gr.TabbedInterface([audio_upload, microphone], ["Audio file", "Microphone"], title=title)
+    gr.TabbedInterface(
+        [audio_upload, microphone], ["Audio file", "Microphone"], title=title
+    )
 
 demo.launch(enable_queue=True)
