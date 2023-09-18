@@ -72,12 +72,12 @@ def predict(prompt, language, audio_file_pth, mic_file_path, use_mic, agree):
                     None,
                     None,
                 )
-        if len(prompt)>200:
-            gr.Warning("Text length limited to 200 characters for this demo, please try shorter text")
-            return (
-                    None,
-                    None,
-                )  
+        # if len(prompt)>200:
+        #     gr.Warning("Text length limited to 200 characters for this demo, please try shorter text")
+        #     return (
+        #             None,
+        #             None,
+        #         )  
         global DEVICE_ASSERT_DETECTED
         if DEVICE_ASSERT_DETECTED:
             global DEVICE_ASSERT_PROMPT
