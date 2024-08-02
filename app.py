@@ -39,7 +39,7 @@ from huggingface_hub import HfApi
 
 # will use api to restart space on a unrecoverable error
 api = HfApi(token=HF_TOKEN)
-repo_id = "coqui/xtts"
+repo_id = "Abhinay45/XTTS-IITM"
 
 # Use never ffmpeg binary for Ubuntu20 to use denoising for microphone input
 print("Export newer ffmpeg binary for denoise filter")
