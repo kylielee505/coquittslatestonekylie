@@ -417,10 +417,6 @@ description = """
 This demo is currently running **XTTS v2.0.3** <a href="https://huggingface.co/coqui/XTTS-v2">XTTS</a> is a multilingual text-to-speech and voice-cloning model. This demo features zero-shot voice cloning, however, you can fine-tune XTTS for better results. Leave a star 🌟 on Github <a href="https://github.com/coqui-ai/TTS">🐸TTS</a>, where our open-source inference and training code lives.
 
 <br/>
-
-Supported languages: Arabic: ar, Brazilian Portuguese: pt , Mandarin Chinese: zh-cn, Czech: cs, Dutch: nl, English: en, French: fr, German: de, Italian: it, Polish: pl, Russian: ru, Spanish: es, Turkish: tr, Japanese: ja, Korean: ko, Hungarian: hu, Hindi: hi
-
-<br/>
 """
 
 links = """
@@ -626,23 +622,23 @@ with gr.Blocks(analytics_enabled=False) as demo:
                 label="Language",
                 info="Select an output language for the synthesised speech",
                 choices=[
-                    "en",
-                    "es",
-                    "fr",
-                    "de",
-                    "it",
-                    "pt",
-                    "pl",
-                    "tr",
-                    "ru",
-                    "nl",
-                    "cs",
-                    "ar",
-                    "zh-cn",
-                    "ja",
-                    "ko",
-                    "hu",
-                    "hi"
+                    ["Arabic": "ar"],
+                    ["Brazilian Portuguese": "pt"],
+                    ["Mandarin Chinese": "zh-cn"],
+                    ["Czech": "cs"],
+                    ["Dutch": "nl"],
+                    ["English": "en"],
+                    ["French": "fr"],
+                    ["German": "de"],
+                    ["Italian": "it"],
+                    ["Polish": "pl"],
+                    ["Russian": "ru"],
+                    ["Spanish": "es"],
+                    ["Turkish": "tr"],
+                    ["Japanese": "ja"],
+                    ["Korean": "ko"],
+                    ["Hungarian": "hu"],
+                    ["Hindi": "hi"]
                 ],
                 max_choices=1,
                 value="en",
