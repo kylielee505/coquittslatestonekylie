@@ -284,7 +284,6 @@ def predict(
                 repetition_penalty=7.0,
                 temperature=0.85,
             )
-
             first_chunk = True
             for i, chunk in enumerate(chunks):
                 if first_chunk:
@@ -300,13 +299,11 @@ def predict(
             #metrics_text += (
             #    f"Time to generate audio: {round(inference_time*1000)} milliseconds\n"
             #)
-
             wav = torch.cat(wav_chunks, dim=0)
             print(wav.shape)
             real_time_factor = (time.time() - t0) / wav.shape[0] * 24000
             print(f"Real-time factor (RTF): {real_time_factor}")
             metrics_text += f"Real-time factor (RTF): {real_time_factor:.2f}\n"
-
             torchaudio.save("output.wav", wav.squeeze().unsqueeze(0).cpu(), 24000)
             """
 
@@ -411,29 +408,19 @@ def predict(
 title = "Coqui🐸 XTTS"
 
 description = """
-
 <br/>
-
 This demo is currently running **XTTS v2.0.3** <a href="https://huggingface.co/coqui/XTTS-v2">XTTS</a> is a multilingual text-to-speech and voice-cloning model. This demo features zero-shot voice cloning, however, you can fine-tune XTTS for better results. Leave a star 🌟 on Github <a href="https://github.com/coqui-ai/TTS">🐸TTS</a>, where our open-source inference and training code lives.
-
-<br/>
-
-Supported languages: Arabic: ar, Brazilian Portuguese: pt , Mandarin Chinese: zh-cn, Czech: cs, Dutch: nl, English: en, French: fr, German: de, Italian: it, Polish: pl, Russian: ru, Spanish: es, Turkish: tr, Japanese: ja, Korean: ko, Hungarian: hu, Hindi: hi
-
 <br/>
 """
 
 links = """
 <img referrerpolicy="no-referrer-when-downgrade" src="https://static.scarf.sh/a.png?x-pxid=0d00920c-8cc9-4bf3-90f2-a615797e5f59" />
-
 |                                 |                                         |
 | ------------------------------- | --------------------------------------- |
 | 🐸💬 **CoquiTTS**                | <a style="display:inline-block" href='https://github.com/coqui-ai/TTS'><img src='https://img.shields.io/github/stars/coqui-ai/TTS?style=social' /></a>|
 | 💼 **Documentation**            | [ReadTheDocs](https://tts.readthedocs.io/en/latest/)
 | 👩‍💻 **Questions**                | [GitHub Discussions](https://github.com/coqui-ai/TTS/discussions) |
 | 🗯 **Community**         | [![Dicord](https://img.shields.io/discord/1037326658807533628?color=%239B59B6&label=chat%20on%20discord)](https://discord.gg/5eXr5seRrv)  |
-
-
 """
 
 article = """
@@ -626,23 +613,23 @@ with gr.Blocks(analytics_enabled=False) as demo:
                 label="Language",
                 info="Select an output language for the synthesised speech",
                 choices=[
-                    "en",
-                    "es",
-                    "fr",
-                    "de",
-                    "it",
-                    "pt",
-                    "pl",
-                    "tr",
-                    "ru",
-                    "nl",
-                    "cs",
-                    "ar",
-                    "zh-cn",
-                    "ja",
-                    "ko",
-                    "hu",
-                    "hi"
+                    ["Arabic", "ar"],
+                    ["Brazilian Portuguese", "pt"],
+                    ["Mandarin Chinese", "zh-cn"],
+                    ["Czech", "cs"],
+                    ["Dutch", "nl"],
+                    ["English", "en"],
+                    ["French", "fr"],
+                    ["German", "de"],
+                    ["Italian", "it"],
+                    ["Polish", "pl"],
+                    ["Russian", "ru"],
+                    ["Spanish", "es"],
+                    ["Turkish", "tr"],
+                    ["Japanese", "ja"],
+                    ["Korean", "ko"],
+                    ["Hungarian", "hu"],
+                    ["Hindi", "hi"]
                 ],
                 max_choices=1,
                 value="en",
